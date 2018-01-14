@@ -43,6 +43,8 @@ Features include:
 # Development Plan
 Version 0.1 has been completed and currently supports a single-product layout. We are working on supporting other popular layouts for Shopify merchants. 
 
+Other Shopify-AMP apps including reviews, notices are on the way.
+
 # Testing Website
 Our sample website is launched at https://www.babysocks.uk/. 
 
