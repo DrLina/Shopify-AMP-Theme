@@ -1,0 +1,49 @@
+
+<div class="offset-sm-2 col-sm-8 offset-md-4 col-md-8 offset-lg-4 col-lg-8 offset-xl-4 col-xl-8"> 
+  <br>
+  <br>
+<h1>{{ 'customer.register.title' | t }}</h1>
+  <div class="labellogin">
+
+    {% form 'create_customer' %}
+
+      {{ form.errors | default_errors }}
+
+      <div class="col-12">
+          <label for="FirstName">{{ 'customer.register.first_name' | t }}</label>
+      <br>
+          <input type="text" name="customer[first_name]" id="FirstName" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+      </div>
+
+      <div class="col-12">
+          <label for="LastName">{{ 'customer.register.last_name' | t }}</label>
+      <br>
+          <input type="text" name="customer[last_name]" id="LastName" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+      </div>
+
+      <div class="col-12">
+          <label for="Email">{{ 'customer.register.email' | t }}</label>
+      <br>
+          <input type="email" name="customer[email]" id="Email"  {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+      </div>
+
+      
+       <div class="col-12">
+          <label for="CreatePassword">{{ 'customer.register.password' | t }}</label>
+       <br>
+          <input type="password" name="customer[password]" id="CreatePassword">
+      	</div>
+	  <div class="col-12">
+        <br>
+        <input type="submit" value="{{ 'customer.register.title' | t }}" >
+      </div>
+      <div class="col-12">
+        <br>
+        <span>{{ 'customer.login.sign_in' | t | customer_login_link }}</span>
+      </div>
+
+    {% endform %}
+
+  </div>
+
+</div>

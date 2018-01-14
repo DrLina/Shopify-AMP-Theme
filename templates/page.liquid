@@ -1,0 +1,116 @@
+<div class="col-12"> 
+<h1 class="h2center">{{ page.title }}</h1>
+  
+</div>
+
+<div class="col-12"> 
+  <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">  
+    <div class="rte text-align-center">
+      <small>
+      {% capture date %}{{ page.published_at | date: format: 'month_day_year' }}{% endcapture %}
+      {{ date }}
+      </small>
+    </div>
+    <div class="col-12 margin-1em">
+    </div>
+    
+    <div class="rte">
+      
+      {% assign sentences = page.content | lstrip | split: "<" %}
+         {% assign phead = '' %}
+         {% for sentence in sentences %}
+           {% assign sensize = sentence | size %}
+           
+      	   {% if sensize >2 %} 
+               {% assign senhead = sentence | slice: 1, 2 %}
+               {% if senhead == 'mg'%}
+                   {% assign newsens = sentence | split: '>' %}   
+                      {% assign leftsens = sentence | remove_first: newsens[0] | remove_first: '>' %}
+      
+                      {% if newsens[0] contains 'style="' %}                                           
+                          {% assign stylewords = newsens[0] | split: 'style="' %}
+                          {% assign innerstylewords = stylewords[1] | split: '"' %}
+                          {% assign clearedstyleword = stylewords[1] | remove_first: innerstylewords[0] | remove_first: '"' %}
+                          {% assign newsentence = stylewords[0] | append: clearedstyleword | remove_first: 'img' | prepend: '<amp-img width="dfw" height="dfh" layout="responsive" ' | append: '></amp-img>' %}
+                          {% if newsens[0] contains 'left;' %}
+                             {% assign newsentence = newsentence | prepend: '<div class="float-left col-sm-12 col-md-6"><div class="col-sm-12 col-md-11">' | append: '</div></div>' %}
+                          {% elsif newsens[0] contains 'right;' %}
+      						 {% assign newsentence = newsentence | prepend: '<div class="float-right col-sm-12 col-md-6"><div class="col-sm-12 offset-md-1 col-md-11">' | append: '</div></div>' %}
+                          {% else %}
+                             {% assign newsentence = newsentence | prepend: '<div class="col-sm-12 col-md-12"><div class="col-12">' | append: '</div></div>' %}
+                          {% endif %}
+                      {% else %}
+                     	  {% assign newsentence = sentence | remove_first: 'img' | prepend:  '<amp-img width="dfw" height="dfh" layout="responsive" ' | append: '></amp-img>' %}
+      					  {% assign newsentence = newsentence | prepend: '<div class="col-sm-12 col-md-12"><div class="col-12">' | append: '</div></div>'  %}
+                      {% endif %}
+        
+                      {% if newsens[0] contains 'alt="(' %}
+                          {% assign altwords = newsens[0] | split: 'alt="(' %}
+                          {% if altwords[1] contains '|' %}
+                              {% assign sizewords = altwords[1] | split: '|' %}
+                              {% if sizewords[1] contains ')' %}
+                                  {% assign heightwords = sizewords[1] | split: ')' %}
+                                  {% assign newsentence = newsentence | replace_first: 'dfw', sizewords[0] | replace_first: 'dfh', heightwords[0] %}
+      							  {% assign rmsizeword = sizewords[0] | prepend: '(' | append: '|' | append: heightwords[0] | append: ')' %}
+      							  {% assign newsentence = newsentence | remove_first: rmsizeword %}
+                              {% endif %}
+                          {% endif %}
+                      {% endif %}
+                      {% assign newsentence = newsentence | replace_first: 'dfw', '3' | replace_first: 'dfh', '2' %}
+       
+                      {% if phead != '' %} 
+                      	  {% assign newsentence = newsentence | prepend: '</p>' | append: phead | append: leftsens %}
+     				  {% else %}
+                          {% assign newsentence = newsentence | append: leftsens %}
+                      {% endif %}
+               {% else %}
+                   {% assign senhead0 = sentence | slice: 0 %}
+      			   {% assign senhead1 = sentence | slice: 1 %}
+                   {% assign senhead = senhead0 | append: senhead1 %}
+      
+  				   {% assign newsens = sentence | split: '>' %}
+      			   {% assign leftsens = sentence | remove_first: newsens[0] %}
+                   {% if newsens[0] contains 'style="' %} 
+                   		 {% assign stylewords = newsens[0] | split: 'style="' %}
+                   		 {% assign innerstylewords = stylewords[1] | split: '"' %}
+                         {% assign clearedstyleword = stylewords[1] | remove_first: innerstylewords[0] | remove_first: '"' %}
+                         {% assign newsentence = stylewords[0] | prepend: '<' | append: clearedstyleword %}
+      				     {% if newsens[0] contains 'underline' %}
+                             {% assign wordsdecoration = ' text-dec-underline' %}
+                         {% else %}
+                             {% assign wordsdecoration = '' %}
+                         {% endif %}
+                    	 {% if newsens[0] contains 'text-align: center;' %}
+                             {% assign newsentence = newsentence | append: ' class="text-align-center' | append: wordsdecoration | append: '" ' %}
+                         {% elsif newsens[0] contains 'text-align: right;' %}
+      						 {% assign newsentence = newsentence | append: ' class="text-align-right' | append: wordsdecoration | append: '" ' %}
+                         {% else %}
+                             {% assign newsentence = newsentence | append: ' class="text-align-left' | append: wordsdecoration | append: '" ' %}
+                         {% endif %}
+                         {% if senhead == "p " %}
+                            {% assign phead = newsentence | append: '>' %}
+                         {% endif %}
+                         {% assign newsentence = newsentence | append: leftsens %}
+                   {% else %}
+                         {% assign newsentence = sentence | prepend: '<'  %}
+      					 {% if senhead == "p>" %}
+                            {% assign phead = '<p>' %}
+      					 {% elsif senhead == "/p" %}
+      						{% assign phead = '' %}
+                         {% endif %}
+                   {% endif %}	
+                   
+               {% endif %}
+      			{{newsentence}}               
+           {% endif %}
+         {% endfor %}
+      
+    </div>
+  </div>
+</div>
+
+<div class="col-12">
+  <br>
+  <br>
+</div>
+
