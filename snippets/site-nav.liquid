@@ -1,0 +1,133 @@
+<div class="nav fix-bar"> 
+  {% for link in linklists[section.settings.menu].links %}
+    {% assign child_list_handle = link.title | handleize %}
+  <a href="{{ link.url }}"><span {% if link.active %}class="nav_act"{% endif %}>{{ link.title }}</span></a>
+  {% endfor %}
+  {% if section.settings.show_buy_button %} 
+  <a href="{{ section.settings.buy_button_link }}"><span class="nav_buy">Buy</span></a>
+  {% endif %}
+    
+  {% if shop.customer_accounts_enabled %}
+  <a href="/account{% unless customer %}/login{% endunless %}">
+    <span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="1em" height="1.5em" viewBox="0 0 18 27" enable-background="new 0 0 18 27" xml:space="preserve"><path fill="{{ settings.color_account }}" d="M18 17h0c0-3.2-1.8-6.1-4.6-7.6 1-1 1.5-2.4 1.5-3.8 0-3.1-2.5-5.6-5.6-5.6C6.2 0 3.7 2.5 3.7 5.6c0 1.4 0.5 2.7 1.5 3.8 -2.8 1.5-4.6 4.5-4.6 7.7V26.5H18v-9.4V17zM2.7 17c0-2.8 1.8-5.3 4.5-6.2 0.3 0.1 0.6 0.2 1 0.3l0 0c0.6 0.1 1.1 0.1 1.7 0.1 0 0 0.1 0 0.1 0L10 11.2c0.1 0 0.3 0 0.4-0.1 0.3-0.1 0.7-0.2 1-0.3 2.7 0.9 4.5 3.4 4.5 6.3v7.2H2.7v-7.2L2.7 17zM9.3 2.1c1.9 0 3.5 1.6 3.5 3.5 0 1.9-1.6 3.5-3.5 3.5 -1.9 0-3.5-1.6-3.5-3.5C5.8 3.7 7.3 2.1 9.3 2.1z"/></svg>
+    </span>
+  </a>
+  {% endif %}
+  
+  {% if cart.item_count != 0 %}
+  <a href="/cart">
+    <span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="1.2em" height="1.6em" viewBox="0 0 22 27" enable-background="new 0 0 22 27" xml:space="preserve"><path fill="{{ settings.color_header_cart_search }}" d="M17.1 6.6V6.3C17.1 2.8 14.2 0 10.7 0S4.4 2.8 4.4 6.3v0.4H0V27h21.2V6.6H17.1zM6.3 6.3c0-2.4 2-4.3 4.4-4.3s4.4 2 4.4 4.3v0.4H6.3V6.3zM19 8.8v16H2.2V8.8"/></svg>  
+    </span>
+    <span class="lefttop" >{{ cart.item_count }}</span>
+  </a>
+  {% endif %}  
+  
+  <div id="nav-search-bar" class="nav-search-bar">
+    {% include 'search-bar' %}
+  </div>
+  
+  <a href="#nav-search-bar">
+    <span>
+  	<svg class="shiftright" xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="1.5em" height="1.5em" viewBox="0 0 10 10" enable-background="new 0 0 10 10"><g stroke-width="1" stroke="{{ settings.color_header_cart_search }}" fill="{{ settings.color_nav_bg }}"><path d="M11.29 11.71l-4-4"/><circle cx="5" cy="5" r="3"/></g></svg>
+    </span>
+  </a>
+  <div id="nothing">
+  </div>
+ 
+</div>
+
+<div class="nav-mob" >
+  <div id="accessibleNav" class="accessibleNav">
+      <a class="menu" href="#iconNav">&#9746;</a>
+      <ul class="accessibleMenu">
+        {% for link in linklists[section.settings.menu].links %}
+          {% assign child_list_handle = link.title | handleize %}
+        <a href="{{ link.url }}"><li {% if link.active %}class="nav_act"{% endif %}>{{ link.title }}</li></a>
+        {% endfor %}
+		
+        {% if section.settings.show_buy_button %} 
+           <a href="{{ section.settings.buy_button_link }}"><li ><span class="nav_buy">Buy<span></li></a>
+        {% endif %}
+
+        {% if shop.customer_accounts_enabled %}
+        <a href="/account{% unless customer %}/login{% endunless %}">
+          <li><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="1em" height="1.5em" viewBox="0 0 18 27" enable-background="new 0 0 18 27" xml:space="preserve"><path fill="{{ settings.color_account }}" d="M18 17h0c0-3.2-1.8-6.1-4.6-7.6 1-1 1.5-2.4 1.5-3.8 0-3.1-2.5-5.6-5.6-5.6C6.2 0 3.7 2.5 3.7 5.6c0 1.4 0.5 2.7 1.5 3.8 -2.8 1.5-4.6 4.5-4.6 7.7V26.5H18v-9.4V17zM2.7 17c0-2.8 1.8-5.3 4.5-6.2 0.3 0.1 0.6 0.2 1 0.3l0 0c0.6 0.1 1.1 0.1 1.7 0.1 0 0 0.1 0 0.1 0L10 11.2c0.1 0 0.3 0 0.4-0.1 0.3-0.1 0.7-0.2 1-0.3 2.7 0.9 4.5 3.4 4.5 6.3v7.2H2.7v-7.2L2.7 17zM9.3 2.1c1.9 0 3.5 1.6 3.5 3.5 0 1.9-1.6 3.5-3.5 3.5 -1.9 0-3.5-1.6-3.5-3.5C5.8 3.7 7.3 2.1 9.3 2.1z"/></svg>
+          </li>
+        </a>
+        {% endif %}
+
+        {% if cart.item_count != 0 %}
+        <a href="/cart">
+                <li><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="1.2em" height="1.6em" viewBox="0 0 22 27" enable-background="new 0 0 22 27" xml:space="preserve"><path fill="{{ settings.color_header_cart_search }}" d="M17.1 6.6V6.3C17.1 2.8 14.2 0 10.7 0S4.4 2.8 4.4 6.3v0.4H0V27h21.2V6.6H17.1zM6.3 6.3c0-2.4 2-4.3 4.4-4.3s4.4 2 4.4 4.3v0.4H6.3V6.3zM19 8.8v16H2.2V8.8"/></svg>  
+                <span class="lefttop">{{ cart.item_count }}</span>
+                </li>
+        </a>
+        {% endif %} 
+        
+      </ul>
+      
+      <span class="align-center">
+        {% include 'search-bar' %}
+      </span>
+      
+      
+  </div>
+
+  <a id="iconNav" href="#accessibleNav" class="menu">
+  &#9776;
+  </a>
+</div>
+
+{% comment %}  
+  
+<ul>
+  {% unless linklists[section.settings.menu].links.first.url == '/' %}
+  <li class="large--hide">
+    <a href="/">{{ 'general.breadcrumbs.home' | t }}</a>
+  </li>
+  {% endunless %}
+  {% for link in linklists[section.settings.menu].links %}
+    {% assign child_list_handle = link.title | handleize %}
+    {% if linklists[child_list_handle].links != blank %}
+      <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+        <a href="{{ link.url }}">
+          {{ link.title }}
+          <span class="icon-fallback-text">
+            <span class="icon icon-arrow-down" aria-hidden="true"></span>
+          </span>
+        </a>
+        <ul class="site-nav--dropdown">
+          {% for childlink in linklists[child_list_handle].links %}
+            <li {% if childlink.active %}class="site-nav--active"{% endif %}><a href="{{ childlink.url }}">{{ childlink.title | escape }}</a></li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% else %}
+      <li {% if link.active %}class="site-nav--active"{% endif %}>
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      </li>
+    {% endif %}
+  {% endfor %}
+
+  
+  {% if shop.customer_accounts_enabled %}
+  <li class="btn__account">
+    <a href="/account{% unless customer %}/login{% endunless %}">
+      <span class="icon" aria-hidden="true">{% include 'svg' with 'account' %}</span>
+      <span class="text">{{ 'layout.navigation.my_account' | t }}</span>
+    </a>
+  </li>
+  {% endif %}
+
+  
+  {% if shop.customer_accounts_enabled %}
+    {% if customer %}
+      <li class="customer-navlink large--hide"><a href="/account">{{ 'layout.customer.view_account' | t }}</a></li>
+      <li class="customer-navlink large--hide">{{ 'layout.customer.log_out' | t | customer_logout_link }}</li>
+    {% else %}
+      <li class="customer-navlink large--hide">{{ 'layout.customer.sign_in' | t | customer_login_link }}</li>
+      <li class="customer-navlink large--hide">{{ 'layout.customer.create_account' | t | customer_register_link }}</li>
+    {% endif %}
+  {% endif %}
+</ul>
+  {% endcomment %}

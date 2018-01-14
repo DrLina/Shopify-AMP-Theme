@@ -1,0 +1,97 @@
+<div class="col-12 {{section.settings.section_border}}">
+  {% if section.settings.section_margin == true %}
+  <div class="col-sm-12 offset-md-2 col-md-8 offset-lg-2 col-lg-8 offset-xl-2 col-xl-8">
+  {% else %}
+  <div class="col-12">
+  {% endif %}
+    
+    <div class="fix-sm-noshow fix-lg-show col-12 margin-1em">
+
+        {%- assign blog = blogs[section.settings.blog] -%}
+        <amp-carousel 
+          height="200"
+          layout="fixed-height"
+          type="carousel">
+          {% for article in blog.articles%}
+
+          {% assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}    
+          <a href="{{article.url}}"> <amp-img    
+                   src="{{ article.image | img_url: '300x300' }}"
+                   srcset="{{ article.image | img_url: 'master' }} 1000w, {{ article.image | img_url: '800x800' }} 800w, {{ article.image | img_url: '600x600' }} 500w, {{ article.image | img_url: '400x400' }} 400w, {{ article.image | img_url: '300x300' }} 10w"
+                   width="300"
+                   height="200" 
+
+                   alt="{{ article.title | escape }}">
+            </amp-img></a>
+          {% endfor %}
+        </amp-carousel>
+    </div>
+    <div class="fix-sm-show fix-lg-noshow col-12 margin-1em">
+        {%- assign blog = blogs[section.settings.blog] -%}
+        <amp-carousel 
+          height="100"
+          layout="fixed-height"
+          type="carousel">
+          {% for article in blog.articles%}
+          {% assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}    
+          <a href="{{article.url}}"> <amp-img    
+                   src="{{ article.image | img_url: '300x300' }}"
+                   srcset="{{ article.image | img_url: 'master' }} 1000w, {{ article.image | img_url: '800x800' }} 800w, {{ article.image | img_url: '600x600' }} 500w, {{ article.image | img_url: '400x400' }} 400w, {{ article.image | img_url: '300x300' }} 10w"
+                   width="150"
+                   height="100" 
+
+                   alt="{{ article.title | escape }}">
+          </amp-img></a>
+          {% endfor %}
+        </amp-carousel>
+      
+    </div>
+   </div>
+</div>
+{% schema %}
+  {
+    "name": "Featured_blog",
+    "class": "blog-section",
+    "settings": [
+     {
+        "type": "checkbox",
+        "id": "section_margin",
+        "label": "Enable section margin",
+		"default": false
+      },
+      {
+        "type": "select",
+        "id": "section_border",
+        "label": "Section border settings",
+        "default": "top-border",
+        "options": [
+          {
+            "label": "top border",
+            "value": "top-border"
+          },
+          {
+            "label": "bottom border",
+            "value": "bottom-border"
+          },
+          {
+            "label": "top and bottom border",
+            "value": "top-border bottom-border"
+          },
+          {
+            "label": "full border",
+            "value": "fullborder"
+          },
+          {
+            "label": "no border",
+            "value": "noborder"
+          }
+        ]
+      },  
+	  {
+        "id": "blog",
+        "type": "blog",
+        "label": "Blog"
+      }
+    ]
+  }
+{% endschema %}

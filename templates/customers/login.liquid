@@ -1,0 +1,111 @@
+<div class="offset-sm-2 col-sm-8 offset-md-4 col-md-8 offset-lg-4 col-lg-8 offset-xl-4 col-xl-8"> 
+  <br>
+  <br>
+
+    <div id="resetSuccess" class="labellogin" style="display:none;">
+      We've sent you an email with a link to update your password.
+    </div>
+    
+    <div class="labellogin">
+      
+    {% form 'customer_login' %}
+       <h1>{{ 'customer.login.title' | t }}</h1>
+      {% include 'form-errors-custom' %}
+      <div class="col-12">
+      <label for="customer_email">{{ 'customer.login.email' | t }}</label>
+      <br>
+      <input type="email" value="" name="customer[email]" id="customer_email" placeholder="{{ 'customer.login.email' | t }}" autocorrect="off" autocapitalize="off" autofocus>
+      </div>
+      {% if form.password_needed %}
+        <div class="col-12">
+        <label for="customer_password">{{ 'customer.login.password' | t }}</label>
+		<br>
+        <input type="password" value="" name="customer[password]" id="customer_password" placeholder="{{ 'customer.login.password' | t }}">
+        </div>
+      {% endif %}
+
+        <p class="col-12">
+          <input type="submit" value="{{ 'customer.login.sign_in' | t }}">
+        </p>
+        <p class="col-12">
+          <span> {{ 'customer.register.title' | t | customer_register_link }}</span>
+        </p>
+        {% if form.password_needed %}
+        <p class="col-12">
+          <a href="#" onclick="showRecoverPasswordForm();return false;">{{ 'customer.login.forgot_password' | t }}</a>
+        </p>
+        {% endif %}
+    {% endform %}
+	</div>
+
+    {% comment %}
+      This page uses JavaScript to show/hide the recover password form
+    {% endcomment %}
+    <div class="labellogin" id="recover_password" style="display: none;">
+
+      <h1>{{ 'customer.recover_password.title' | t }}</h1>
+      <p>{{ 'customer.recover_password.subtext' | t }}</p>
+
+      {% form 'recover_customer_password' %}
+
+        {% include 'form-errors-custom' %}
+
+        {% if form.posted_successfully? %}
+          {% assign reset_success = true %}
+        {% endif %}
+        <div class="col-12">
+        <label for="recover-email">{{ 'customer.recover_password.email' | t }}</label>
+        <br>
+        <input type="email" value="" name="email" id="recover-email" placeholder="{{ 'customer.recover_password.email' | t }}" autocorrect="off" autocapitalize="off">
+        </div>
+        <p class="col-12">
+          <input type="submit" value="{{ 'customer.recover_password.submit' | t }}">
+        </p>
+        <div class="col-12">
+        {{ 'customer.login.or' | t }} <a href="#" onclick="hideRecoverPasswordForm();return false;">{{ 'customer.recover_password.cancel' | t }}</a>
+          </div>
+        
+      {% endform %}
+
+    </div>
+
+    {% if shop.checkout.guest_login %}
+  	<div class="labellogin">
+      <hr>
+
+      <h1>{{ 'customer.login.guest_title' | t }}</h1>
+
+      {% form 'guest_login' %}
+        <input  type="submit" value="{{ 'customer.login.guest_continue' | t }}">
+      {% endform %}
+    </div>  
+    {% endif %}
+
+  </div>
+
+</div>
+
+
+
+<script>
+  /*
+    Show/hide the recover password form when requested.
+  */
+  function showRecoverPasswordForm() {
+    document.getElementById('recover_password').style.display = 'block';
+    document.getElementById('customer_login').style.display='none';
+  }
+
+  function hideRecoverPasswordForm() {
+    document.getElementById('recover_password').style.display = 'none';
+    document.getElementById('customer_login').style.display = 'block';
+  }
+
+  // Allow deep linking to the recover password form
+  if (window.location.hash == '#recover') { showRecoverPasswordForm() }
+
+  // reset_success is only true when the reset form is
+  {% if reset_success %}
+    document.getElementById('resetSuccess').style.display = 'block';
+  {% endif %}
+</script>

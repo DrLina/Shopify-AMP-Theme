@@ -1,0 +1,91 @@
+<footer role="contentinfo">
+  <div class="col-12 text-align-center footbar">
+
+    <div class="footcontainer">
+      {% if settings.logo %}
+      {% capture image_size %}{{ settings.logo_max_width | escape }}x{% endcapture %}
+      {%- assign img_url = section.settings.logo | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+      {% capture logo_alt %}{{ settings.logo.alt | default: shop.name }}{% endcapture %}
+      <a href="/">
+        {% capture logo_alt %}{{ settings.logo.alt | default: shop.name }}{% endcapture %}
+
+        {% if handle or template == "index"%}
+        <amp-img src="{{ settings.logo | img_url: image_size }}"
+                 width="{{ settings.logo.width }}"
+                 height="{{ settings.logo.height }}"  
+                 srcset="{{ settings.logo | img_url: '300x300' }} 650w, {{ settings.logo | img_url: '200x200' }} 10w"
+                 sizes="(min-width: 650px) and (max-width:991px) 120px, (min-width: 992px) 150px, 96px"
+                 alt="{{ logo_alt | escape }}" class="marginauto"></amp-img>    
+        {% else %}
+        <div class="logo-size marginauto">
+          <img src="{{ settings.logo | img_url: image_size }}" width="100%" alt="{{ logo_alt | escape }}">
+        </div>
+        {% endif %}
+      </a>
+      {% else %}
+      <h1>
+        <a href="/" itemprop="url">{{ shop.name }}</a>
+      </h1>
+      {% endif %}
+
+      <hr>
+      {% for block in section.blocks %}
+        <div>
+        {% if block.settings.title %}
+          <h3>{{ block.settings.title | escape }}</h3>
+        {% endif %}
+
+        {% case block.type %}
+
+          {% when 'text' %}
+
+              {% if block.settings.richtext != blank %}
+                {{ block.settings.richtext }}
+              {% else %}
+                <p>{{ 'layout.footer.instructions_for_text_content_html' | t: theme_settings_link: theme_settings_link }}</p>
+              {% endif %}
+          {% endcase %}
+        </div>
+      {% endfor %}
+
+
+
+      {% comment %}
+      {{ powered_by_link }}
+      {% endcomment %}
+    </div>
+    <br>
+    <br>
+  </div>
+
+</footer>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "class": "footer-section",
+  
+    "max_blocks": 9,
+    "blocks": [
+      
+      {
+        "type": "text",
+        "name": "Rich text",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Get in touch"
+          },
+          {
+            "type": "richtext",
+            "id": "richtext",
+            "label": "Text",
+            "default": "<p>Use this text to share information about your brand with your customers.</p>"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

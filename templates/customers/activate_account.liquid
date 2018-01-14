@@ -1,0 +1,38 @@
+
+<div class="offset-sm-2 col-sm-8 offset-md-4 col-md-8 offset-lg-4 col-lg-8 offset-xl-4 col-xl-8"> 
+  <br>
+  <br>
+	
+
+  
+  <div class="labellogin">
+	
+    {% form 'activate_customer_password' %}
+	  <h1>{{ 'customer.activate_account.title' | t }}</h1>
+      {{ form.errors | default_errors }}
+
+      <p>{{ 'customer.activate_account.subtext' | t: email: email }}</p>
+
+      <div class="col-12">
+          <label for="CustomerPassword">{{ 'customer.activate_account.password' | t }}</label>
+        <br>
+          <input type="password" value="" name="customer[password]" id="CustomerPassword">
+      </div>
+
+      <div class="col-12">
+          <label for="CustomerPasswordConfirmation">{{ 'customer.activate_account.password_confirm' | t }}</label>
+        <br>
+          <input type="password" value="" name="customer[password_confirmation]" id="CustomerPasswordConfirmation" class="input-full">
+       
+      </div>
+	  <div class="col-12">
+       <br>
+    </div>
+      <input type="submit" value="{{ 'customer.activate_account.submit' | t }}">
+      <input type="submit" name="decline" value="{{ 'customer.activate_account.cancel' | t }}">
+
+    {% endform %}
+
+  </div>
+
+</div>

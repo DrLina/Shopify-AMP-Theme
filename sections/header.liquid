@@ -1,0 +1,118 @@
+<header data-section-id="{{ section.id }}" data-section-type="header-section">
+  
+  <div class="fix-lhf">
+  {% if settings.logo %}
+      {% capture image_size %}{{ settings.logo_max_width | escape }}x{% endcapture %}
+      {%- assign img_url = settings.logo | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+      {% capture logo_alt %}{{ settings.logo.alt | default: shop.name }}{% endcapture %}
+      <a href="/">
+        {% capture logo_alt %}{{ settings.logo.alt | default: shop.name }}{% endcapture %}
+
+        {% if handle or template == "index"%}
+        <amp-img src="{{ settings.logo | img_url: image_size }}"
+                 width="{{ settings.logo.width }}"
+                 height="{{ settings.logo.height }}"   
+                 sizes="(min-width: 650px) and (max-width:799px) 60px, (min-width: 800px) 100px, 48px"
+                 alt="{{ logo_alt | escape }}"></amp-img>    
+        {% else %}
+        <div class="logo-size">
+           <img src="{{ settings.logo | img_url: image_size }}" width="100%" alt="{{ logo_alt | escape }}">
+        </div>
+        {% endif %}
+      </a>
+  {% else %}
+      <div class="fix-bar">
+      	<a href="/" itemprop="url">{{ shop.name }}</a>
+      </div>
+    
+  {% endif %}
+  </div>
+    
+  <div class=" fix-rhf">
+      {% include 'site-nav' %}
+  </div>
+    
+
+  <div class="fix-bar fix-bar-top">
+  </div> 
+  <div class="fix-bar">
+  </div> 
+
+  {% if section.settings.show_announcement %}
+    <div class="announcement-bar">
+      {% if section.settings.announcement_link %}
+      <a href="{{ section.settings.announcement_link }}">
+      {% endif %}
+       <span class="announcement-bar-text">{{ section.settings.announcement_text | escape }}</span>
+      {% if section.settings.announcement_link %} 
+      </a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if section.settings.show_breadcrumb %} 
+     {% include 'breadcrumb' %}
+  {% endif %}
+</header>  
+
+{% schema %}
+  {
+    "name": "Header",
+    "class": "header-section",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "header",
+        "content": "Announcement bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_announcement",
+        "label": "Show announcement",
+        "default": false
+      },
+	  {
+        "type": "checkbox",
+        "id": "home_page_only",
+        "label": "Home page only",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement text",
+        "default": "Announce something here"
+      },
+      {
+        "type": "url",
+        "id": "announcement_link",
+        "label": "Announcement link",
+        "info": "Optional"
+      },
+	  {
+        "type": "checkbox",
+        "id": "show_buy_button",
+        "label": "Show buy button",
+        "default": false
+      },
+      {
+        "type": "url",
+        "id": "buy_button_link",
+        "label": "Buy button link",
+        "info": "Optional"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_breadcrumb",
+        "label": "Show breadcrumb",
+        "default": false
+      }
+	
+    ]
+  }
+{% endschema %}

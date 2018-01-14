@@ -1,0 +1,371 @@
+<div class="col-12 {{section.settings.section_border}}">
+  {% if section.settings.section_margin == true %}
+  <div class="col-sm-12 offset-md-2 col-md-8 offset-lg-2 col-lg-8 offset-xl-2 col-xl-8">
+  {% else %}
+  <div class="col-12">
+  {% endif %}
+      <div class="fix-sm-noshow fix-lg-show col-md-6 {{section.settings.color_img_bg}} {{section.settings.layout}}">  
+        <div class="col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1">
+          <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2 {{section.settings.block_margin}}">
+                 <amp-img 
+                          src="{{ section.settings.image | img_url: '300x300' }}"
+                          layout="responsive"
+                          srcset="{{ section.settings.image | img_url: 'master' }} 1000w, {{ section.settings.image | img_url: '800x800' }} 800w, {{ section.settings.image | img_url: '600x600' }} 500w, {{ section.settings.image | img_url: '400x400' }} 400w, {{ section.settings.image | img_url: '300x300' }} 10w"
+                          width="{{ section.settings.image.width }}"
+                          height="{{ section.settings.image.height }}" 
+                          alt="{{ section.settings.image.alt | escape }}">
+                 </amp-img>
+           </div>
+        </div>
+      </div>
+      <div class="fix-sm-show fix-lg-noshow col-sm-12 {{section.settings.color_img_bg}} {{section.settings.layout}}"> 
+		 <div class="margin-1em">     
+          <div class="margin-2em">
+                 <amp-img 
+                          src="{{ section.settings.image_mob | img_url: '300x300' }}"
+                          layout="responsive"
+                          srcset="{{ section.settings.image_mob | img_url: 'master' }} 1000w, {{ section.settings.image_mob | img_url: '800x800' }} 800w, {{ section.settings.image_mob | img_url: '600x600' }} 500w, {{ section.settings.image_mob | img_url: '400x400' }} 400w, {{ section.settings.image_mob | img_url: '300x300' }} 10w"
+                          width="{{ section.settings.image_mob.width }}"
+                          height="{{ section.settings.image_mob.height }}" 
+                          alt="{{ section.settings.image_mob.alt | escape }}">
+                 </amp-img>
+           </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6  {{section.settings.color_text_bg}} {{section.settings.layout}}">
+		  <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2  {{section.settings.block_margin}}" >
+              <div>
+                   {% if section.settings.title != blank %}
+                      <div class="{{section.settings.head_text_align}} text-transform">
+                        <span class="{{section.settings.head_text_size}} {{section.settings.head_text_color}}">{{ section.settings.title | escape }}</span>
+                      </div>
+                    {% endif %}
+                    {% if section.settings.text != blank %}
+                      <div class="{{section.settings.body_text_align}} margin-imgtext-2em">
+                        <span class="{{section.settings.body_text_size}}">{{ section.settings.text }}</span>
+                      </div>
+                    {% endif %}
+                    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+                	  <div class="{{section.settings.body_text_align}} section-img-text margin-imgtext-2em">
+                      <a href="{{ section.settings.button_link }}">
+                        {{ section.settings.button_label | escape }}
+                      </a>
+                      </div>
+                    {% endif %}
+              </div>
+            </div> 
+   	  </div>
+    </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Image with text",
+    "class": "index-section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "section_margin",
+        "label": "Enable section margin",
+		"default": true
+      },
+      {
+        "type": "select",
+        "id": "section_border",
+        "label": "Section border settings",
+        "default": "top-border",
+        "options": [
+          {
+            "label": "top border",
+            "value": "top-border"
+          },
+          {
+            "label": "bottom border",
+            "value": "bottom-border"
+          },
+          {
+            "label": "top and bottom border",
+            "value": "top-border bottom-border"
+          },
+          {
+            "label": "full border",
+            "value": "fullborder"
+          },
+          {
+            "label": "no border",
+            "value": "noborder"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "block_margin",
+        "label": "Image/Text area Top/Bottom margin",
+        "default": "",
+        "options": [
+          {
+            "label": "None",
+            "value": ""
+          },
+          {
+            "label": "5%",
+            "value": "margin-5pert"
+          },
+          {
+            "label": "10%",
+            "value": "margin-10pert"
+          },
+          {
+            "label": "15%",
+            "value": "margin-15pert"
+          },
+		  {
+            "label": "20%",
+            "value": "margin-20pert"
+          }
+        ]
+      },
+ 	  {
+        "type": "header",
+        "content": "Image Settings"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_mob",
+        "label": "Image for mobile"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Image alignment",
+        "default": "float-left",
+        "options": [
+          {
+            "value": "float-left",
+            "label": "Left"
+          },
+          {
+            "value": "float-right",
+            "label": "Right"
+          }
+        ]
+      }, 
+      {
+        "type": "select",
+        "id": "color_img_bg",
+        "label": "Image background color",
+        "default": "",
+        "options": [
+            {
+              "label": "Default",
+              "value": ""
+            },
+            {
+              "label": "Predefine color0",
+              "value": "pre_bg_color0"
+            },
+            {
+              "label": "Predefine color1",
+              "value": "pre_bg_color1"
+            },
+  		    {
+              "label": "Predefine color2",
+              "value": "pre_bg_color2"
+            },
+  		    {
+              "label": "Predefine color3",
+              "value": "pre_bg_color3"
+            },
+  			{
+              "label": "Predefine color4",
+              "value": "pre_bg_color4"
+            }
+          ]
+      },
+      {
+        "type": "header",
+        "content": "Text Settings"
+      },
+      
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Image with text"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      },
+      {
+        "type": "select",
+        "id": "color_text_bg",
+        "label": "Text background color",
+        "default": "",
+        "options": [
+            {
+              "label": "Default",
+              "value": ""
+            },
+            {
+              "label": "Predefine color0",
+              "value": "pre_bg_color0"
+            },
+            {
+              "label": "Predefine color1",
+              "value": "pre_bg_color1"
+            },
+  		    {
+              "label": "Predefine color2",
+              "value": "pre_bg_color2"
+            },
+  		    {
+              "label": "Predefine color3",
+              "value": "pre_bg_color3"
+            },
+  			{
+              "label": "Predefine color4",
+              "value": "pre_bg_color4"
+            }
+          ]
+      },
+	  {
+        "type": "select",
+        "id": "head_text_size",
+        "label": "Section heading text size",
+        "default": "h2_size",
+        "options": [
+          {
+            "label": "h1 size",
+            "value": "h1_size"
+          },
+          {
+            "label": "h2 size",
+            "value": "h2_size"
+          },
+          {
+            "label": "h3 size",
+            "value": "h3_size"
+          },
+          {
+            "label": "h4 size",
+            "value": "h4_size"
+          },
+          {
+            "label": "body text size",
+            "value": "p_size"
+          } 
+        ]
+      },
+	  {
+        "type": "select",
+        "id": "head_text_align",
+        "label": "Section heading text align",
+        "default": "text-align-center",
+        "options": [
+          {
+            "label": "center",
+            "value": "text-align-center"
+          },
+          {
+            "label": "left",
+            "value": "text-align-left"
+          },
+          {
+            "label": "right",
+            "value": "text-align-right"
+          } 
+        ]
+      },
+	  {
+        "type": "select",
+        "id": "head_text_color",
+        "label": "Section heading text color",
+        "default": "title_text_color",
+        "options": [
+          {
+            "label": "Title text color",
+            "value": "title_text_color"
+          },
+          {
+            "label": "Body text color",
+            "value": "body_text_color"
+          }
+        ]
+      },
+ 	  {
+        "type": "select",
+        "id": "body_text_size",
+        "label": "Section body text size",
+        "default": "p_size",
+        "options": [
+          {
+            "label": "h1 size",
+            "value": "h1_size"
+          },
+          {
+            "label": "h2 size",
+            "value": "h2_size"
+          },
+          {
+            "label": "h3 size",
+            "value": "h3_size"
+          },
+          {
+            "label": "h4 size",
+            "value": "h4_size"
+          },
+          {
+            "label": "body text size",
+            "value": "p_size"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "body_text_align",
+        "label": "Section body text align",
+        "default": "text-align-left",
+        "options": [
+          {
+            "label": "center",
+            "value": "text-align-center"
+          },
+          {
+            "label": "left",
+            "value": "text-align-left"
+          },
+          {
+            "label": "right",
+            "value": "text-align-right"
+          } 
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image with text",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

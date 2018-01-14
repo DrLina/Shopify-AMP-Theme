@@ -1,0 +1,219 @@
+{% comment %}
+
+  This template will be automatically generated for you if the file doesn't exist,
+  but where's the fun in having no control? Define your layout below.
+
+  The 'layout settings.customer_layout' line is inserted at the top of every customer account template.
+  Your theme's settings determine to use the 'default' or 'theme' customer templates.
+  More info:
+    - http://www.tetchi.ca/shopify-theme-from-scratch-part-11/
+
+  Template note:
+    - All IDs on this template are required to make the form(s) submit properly
+
+{% endcomment %}
+
+
+
+<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-2 col-lg-8 offset-xl-2 col-xl-8"> 
+  <br>
+  <br>
+  <div class="size90">
+	<h2>{{ 'customer.order.title' | t: name: order.name }}</h2>
+    <input type="submit" value="{{ 'customer.account.return' | t }}" onclick="window.location='/account';">
+    <br>
+    <br>
+  </div>
+  
+  <div class="size90">
+
+    {% capture date %}{{ order.created_at | date: format: 'long' }}{% endcapture %}
+    <p>{{ 'customer.order.placed_on_date_html' | t: date: date }}</p>
+
+    {% if order.cancelled %}
+    <div>
+      {% capture date %}{{ order.cancelled_at | date: format: 'long' }}{% endcapture %}
+      <p>{{ 'customer.order.cancelled_on' | t: date: date }}</p>
+    </div>
+    {% endif %}
+    
+    
+    <div class="fullborder col-12">
+      <div class="size90">
+        <div class="col-sm-6 col-md-4"><p><strong>{{ 'customer.orders.order_number' | t }}: </strong>{{ order.name}}</p></div>
+        <div class="col-sm-6 col-md-4"><p><strong>{{ 'customer.orders.date' | t }}: </strong>{{ order.created_at | date: format: 'month_day_year' }}</p></div>
+        <div class="col-sm-6 col-md-4"><p><strong>Payment: </strong>{{ order.financial_status_label }}</p></div>
+        <div class="col-sm-6 col-md-4"><p><strong>Status: </strong>{{ order.fulfillment_status_label }}</p></div>
+        <div class="col-sm-6 col-md-4"><p><strong>{{ 'customer.orders.total' | t }}: </strong>{{ order.total_price | money }}</p></div>
+      </div>
+      
+      <div class="size90">
+          {% for line_item in order.line_items %}
+          <div class="col-12 top-dashed">
+          <div class="cart-item fix-sm-noshow fix-lg-show">
+            <br>
+             <div class="col-md-2 col-lg-2">
+                <div class="cart-image">
+                  <a href="{{ line_item.url }}" >
+                    <img src="{{ line_item | img_url: 'medium' }}"  alt="{{ line_item.title | escape }}">
+                  </a>
+                </div>
+              </div>
+
+              <div class="offset-md-1 col-md-5">
+                <div class="size90">
+                <small> {{ line_item.title | link_to: line_item.product.url }}</small>
+                <p><small>Sku: {{ line_item.sku }}</small></p>
+                </div>
+
+              </div>
+              <div class="offset-md-1 col-md-3">
+                {% if line_item.fulfillment %}
+                      <div>
+                        {% assign date = line_item.fulfillment.created_at | date: format: 'month_day_year' %}
+
+                        <div>
+                          {% if line_item.fulfillment.tracking_url %}
+                            <a href="{{ line_item.fulfillment.tracking_url }}">
+                              <small> {{ 'customer.order.track_shipment' | t }}</small>
+                            </a>
+                          {% else %}
+                           <small> {{ line_item.fulfillment.tracking_company }}
+                             {% if line_item.fulfillment.tracking_number %} #{{ line_item.fulfillment.tracking_number }} {% endif %}</small>
+                          {% endif %}
+
+                        </div>
+                        <small>{{ 'customer.order.fulfilled_on' | t: date: date }}</small>
+                      </div>
+                 {% endif %}
+                <p><small>{{ line_item.price | money }} x {{ line_item.quantity }}</small></p>
+            </div>
+            <br>
+          </div>
+            
+          <div class="cart-item fix-sm-show fix-lg-noshow">
+            <br>
+            <div class="col-12">
+             <div class="col-sm-4">
+                <div class="cart-image">
+                  <a href="{{ line_item.url }}" >
+                    <img src="{{ line_item | img_url: 'medium' }}"  alt="{{ line_item.title | escape }}">
+                  </a>
+                </div>
+                <p><small>{{ line_item.price | money }} x {{ line_item.quantity }}</small></p>
+              </div>
+
+              <div class="col-sm-8">
+                <div class="size90">
+                <small> {{ line_item.title | link_to: line_item.product.url }}</small> 
+                </div>
+                <div class="size90">
+                  {% if line_item.fulfillment %}
+                   {% if line_item.fulfillment.tracking_url %}
+                  <br>
+                   <a href="{{ line_item.fulfillment.tracking_url }}" class="fullborder padding-small">
+                     <small> {{ 'customer.order.track_shipment' | t }}</small>
+                   </a>
+                  
+                   {% else %}
+                   <small> {{ line_item.fulfillment.tracking_company }}
+                     {% if line_item.fulfillment.tracking_number %} #{{ line_item.fulfillment.tracking_number }} {% endif %}</small>
+                   {% endif %}
+                 {% endif %}
+                </div>
+              </div>
+            </div>
+            
+            <br>
+          </div>
+          </div>
+          {% endfor %}
+      </div>
+      <div class="col-12">
+        <br>
+      </div>
+      
+      {% for discount in order.discounts %}
+      <div class="col-12 top-border">
+        <div class="size90 text-align-right">
+          <p><strong>{{ discount.code }} {{ 'customer.order.discount' | t }}: </strong>{{ discount.savings | money }}</p>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="col-12 top-border">
+        <div class="size90 text-align-right">
+          <p><strong>{{ 'customer.order.subtotal' | t }}: </strong>{{ order.subtotal_price | money }}</p>
+        </div>
+      </div>
+      {% for shipping_method in order.shipping_methods %}
+      <div class="col-12 top-border">
+        <div class="size90 text-align-right">     
+          <p><strong>{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }}): </strong>{{ shipping_method.price | money }}</p>
+        </div>
+      </div>
+      {% endfor %}
+      
+      {% for tax_line in order.tax_lines %}
+      <div class="col-12 top-border">
+        <div class="size90 text-align-right">
+          <p><strong>{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%): </strong>{{ tax_line.price | money }}</p>   
+        </div>
+      </div>
+      {% endfor %}
+      <div class="col-12 top-border">
+        <div class="size90 text-align-right">
+          <p><strong>{{ 'customer.order.total' | t }}: </strong>{{ order.total_price | money }} {{ order.currency }}</p>
+        </div>
+      </div>
+    
+    </div>
+	<br>
+    <br>
+  </div>
+
+  <div class="size90">
+
+    <div class="col-sm-12 col-md-6">
+      <h2>{{ 'customer.order.billing_address' | t }}</h2>
+
+      <p><strong>{{ 'customer.order.payment_status' | t }}:</strong> {{ order.financial_status_label }}</p>
+
+      <h3>{{ order.billing_address.name }}</h3>
+      <p>
+        {% if order.billing_address.company != '' %}
+          {{ order.billing_address.company }}<br>
+        {% endif %}
+        {{ order.billing_address.street }}<br>
+        {{ order.billing_address.city }}<br>
+        {% if order.billing_address.province != '' %}
+          {{ order.billing_address.province }}<br>
+        {% endif %}
+        {{ order.billing_address.zip | upcase }}<br>
+        {{ order.billing_address.country }}<br>
+        {{ order.billing_address.phone }}
+      </p>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+      <h2>{{ 'customer.order.shipping_address' | t }}</h2>
+
+      <p><strong>{{ 'customer.order.fulfillment_status' | t }}:</strong> {{ order.fulfillment_status_label }}</p>
+
+      <h3>{{ order.shipping_address.name }}</h3>
+      <p>
+        {% if order.shipping_address.company != '' %}
+          {{ order.shipping_address.company }}<br>
+        {% endif %}
+        {{ order.shipping_address.street }}<br>
+        {{ order.shipping_address.city }}<br>
+        {% if order.shipping_address.province != '' %}
+          {{ order.shipping_address.province }}<br>
+        {% endif %}
+        {{ order.shipping_address.zip | upcase }}<br>
+        {{ order.shipping_address.country }}<br>
+        {{ order.shipping_address.phone }}
+      </p>
+    </div>
+  </div>
+
+</div>

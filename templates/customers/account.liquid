@@ -1,0 +1,75 @@
+<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-2 col-lg-8 offset-xl-2 col-xl-8"> 
+  <br>
+  <br>
+
+  <div class="text-align-center col-12">
+    
+    <p>Welcome, {{ customer.first_name }}</p>
+    {% if customer.email %}
+    <p>{{ customer.email }}</p>
+    {% endif %}
+    <br>
+    <br>
+  </div>
+    <div class="col-12 text-align-center">
+    <input type="submit" value="{{ 'customer.orders.title' | t }}" onclick="getElementById('my_orders').style.display='block';">
+    <br>
+    <br>
+  </div>
+  <div class="col-12 text-align-center">
+    <input type="submit" value="Address Book" onclick="window.location='/account/addresses';">
+    <br>
+    <br>
+  </div>
+
+  <div class="col-12 text-align-center">
+    <input type="submit" value="Log out" onclick="window.location='/account/logout';">
+    <br>
+    <br>
+  </div>
+  
+  <div class="top-border col-12 text-align-left" id="my_orders" style="display:none;">
+      <div class="size90">
+	  
+      <p style="font-size:2em;text-align:right;" onclick="getElementById('my_orders').style.display='none';">&#9746;</p>
+      <h2 class="h1center">{{ 'customer.orders.title' | t }}</h2>
+
+      {% paginate customer.orders by 5 %}
+
+        {% if customer.orders.size != 0 %}
+		   
+       	   {% for order in customer.orders %}
+            <div class="fullborder col-12">
+			  <div class="size90">
+              <div class="col-sm-6 col-md-4"><p><strong>{{ 'customer.orders.order_number' | t }}: </strong>{{ order.name}}</p></div>
+              <div class="col-sm-6 col-md-4"><p><strong>{{ 'customer.orders.date' | t }}: </strong>{{ order.created_at | date: format: 'month_day_year' }}</p></div>
+              <div class="col-sm-6 col-md-4"><p><strong>Payment: </strong>{{ order.financial_status_label }}</p></div>
+              <div class="col-sm-6 col-md-4"><p><strong>Status: </strong>{{ order.fulfillment_status_label }}</p></div>
+              <div class="col-sm-6 col-md-4"><p><strong>{{ 'customer.orders.total' | t }}: </strong>{{ order.total_price | money }}</p></div>
+              <div class="col-sm-6 col-md-4"><input type="submit" value="View Order" onclick="window.location='{{order.customer_url }}';"></div>
+              </div>
+            </div>
+           {% endfor %}
+  
+        {% else %}
+
+          <p>{{ 'customer.orders.none' | t }}</p>
+
+        {% endif %}
+
+        <div class="col-12" >
+          {% include 'pagination-custom' %}
+        </div>
+
+      {% endpaginate %}
+
+        
+    </div>
+
+  </div>
+</div>
+
+ <br>
+  <br>
+ <br>
+  <br>

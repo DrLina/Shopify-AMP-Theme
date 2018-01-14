@@ -1,0 +1,218 @@
+<div class="col-12 fix-sm-noshow fix-lg-show"> 
+<h1 class="h1center">{{ product.title }}</h1>
+</div>
+
+<div id="ProductSection" class="col-12">
+
+
+  <div class="offset-sm-0 col-sm-12 offset-md-0 col-md-6 offset-lg-1 col-lg-5 offset-xl-2 col-xl-4">   
+  
+    <div class="product_img_size90">
+     {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+     <amp-image-lightbox id="mybox" layout="nodisplay"></amp-image-lightbox>
+      
+      <amp-carousel controls
+        type="slides"
+        width="800"
+        height="800"
+        layout="responsive"
+        [slide]="selectedSlide"
+        on="slideChange:AMP.setState({selectedSlide: event.index})">
+     
+        
+        {% for image in product.images %} 
+        
+          {% capture img_id %}FeaturedImage-{{ section.id }}-{{ image.id }}{% endcapture %}
+          {% capture img_class %}product-featured-img{% endcapture %}
+          {% capture zoom_img_id %}FeaturedImageZoom-{{ section.id }}-{{ image.id }}{% endcapture %}
+          {% capture img_wrapper_id %}{{ zoom_img_id }}-wrapper{% endcapture %}
+          {%- assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+ 
+        
+          		<amp-img 
+                 on="tap:mybox"
+                 role="button"
+ 				 tabindex="0"
+                 src="{{ image | img_url: '300x300' }}"
+                 layout="responsive"
+                 srcset="{{ image | img_url: 'master' }} 1000w, {{ image | img_url: '800x800' }} 800w, {{ image | img_url: '600x600' }} 500w, {{ image | img_url: '400x400' }} 400w, {{ image | img_url: '300x300' }} 10w"
+                 width="{{ image.width }}"
+                 height="{{ image.height }}" 
+                 alt="{{ image.alt | escape }}">
+                 </amp-img>        
+           {% endfor %}
+        </amp-carousel>
+    </div>
+  </div>
+  <div class="offset-sm-0 col-sm-12 offset-md-0 col-md-6 col-lg-5 col-xl-4">
+    <div class="size90 text-align-center">
+      <br>
+      <div class="col-12 fix-sm-show fix-lg-noshow"> 
+      	<h1 class="h1center">{{ product.title }}</h1>
+      </div>
+      {% assign variant = product.selected_or_first_available_variant %}
+
+      <span class="LPrice" [text]="currentPrice[currentPrice.currentItem].curPrice">{{product.selected_or_first_available_variant.price | money  }}</span>
+      <span class="LSalePrice" [text]="currentPrice[currentPrice.currentItem].origPrice">{{product.selected_or_first_available_variant.compare_at_price | money  }}</span>
+
+      {% if settings.product_vendor_enable %}
+        <p>{{ product.vendor }}</p>
+      {% endif %}
+      
+      
+        <form action="/cart/add" method="get" enctype="multipart/form-data" id="addToCartForm-{{ section.id }}" target="_top">
+          
+         {% for option in product.options_with_values %}
+             <label>
+               <span class="labeltitle"> {{ option.name }}</span>
+			<br>
+            {% if forloop.index  == 1%} 
+            <select on="change:AMP.setState({Options: {option1: event.value}, currentPrice: {currentItem: event.value+Options.option2+Options.option3}})">
+            {% elsif forloop.index  == 2 %}
+            <select on="change:AMP.setState({Options: {option2: ' / '+event.value}, currentPrice: {currentItem: Options.option1+' / '+event.value+Options.option3}})">
+            {% elsif forloop.index  == 3 %}
+      		<select on="change:AMP.setState({Options: {option3: ' / '+event.value}, currentPrice: {currentItem: Options.option1+Options.option2+' / '+event.value}})">
+            {% endif %}
+            
+              {% for value in option.values %}
+                <option {% if option.selected_value == value %}selected{% endif %} value="{{ value }}">
+                  {{ value }}
+                </option>
+              {% endfor %}
+            </select>
+            </label>
+       
+       	  {% endfor %}
+		<div class="col-12" >
+          <input type="text" name="id" id="productSelect-{{ section.id }}" value="{{product.selected_or_first_available_variant.id}}" [value]="currentPrice[currentPrice.currentItem].id" hidden>
+          <label for="quantity" class="quantity-selector quantity-selector-{{ section.id }}">
+            <span class="labeltitle"> {{ 'products.product.quantity' | t }}</span>
+            <br>
+            <input type="number" size="4" id="quantity" name="quantity" value="1" min="1" max="1000">   
+          </label>
+        </div>
+        <div class="col-12" >
+          <button [disabled]="currentPrice[currentPrice.currentItem].buttonstatus" type="submit" name="add" id="addToCart-{{ section.id }}" >
+              <span class="icon icon-cart"></span>
+              <span [text]="currentPrice[currentPrice.currentItem].buttontxt" id="addToCartText-{{ section.id }}">{{ 'products.product.add_to_cart' | t }}</span>
+          </button>
+        </div>
+             
+        </form>
+          <div class="col-12 margin-1em" >
+            <br>
+          <span class="labeltitle">Share</span>
+          {% include 'social-sharing' %}
+          </div>
+               
+
+     </div>  
+  </div>
+</div>
+
+<div class="offset-sm-0 col-sm-12 offset-md-0 col-md-12 offset-lg-1 col-lg-10 offset-xl-2 col-xl-8"> 
+  <hr>
+  <div class="size90">
+    {{ product.description }}
+  </div>
+</div>
+
+<amp-state id="Options">
+  <script type="application/json">
+    {
+      "option1": "{{product.selected_or_first_available_variant.option1}}",
+      "option2": {% if product.selected_or_first_available_variant.option2 %}" / {{product.selected_or_first_available_variant.option2}}"{% else %}""{% endif %},
+      "option3": {% if product.selected_or_first_available_variant.option3 %}" / {{product.selected_or_first_available_variant.option3}}"{% else %}""{% endif %}
+    }
+  </script>
+</amp-state>
+    
+<amp-state id="currentPrice">
+  <script type="application/json">
+      {
+		   "currentItem":"{{product.selected_or_first_available_variant.title}}"
+          {% for variant in product.variants %}
+          ,
+          "{{ variant.title }}": {
+            "id": "{{ variant.id }}",  
+            "curPrice": "{{ variant.price | money  }}",  
+            "origPrice": "{{ variant.compare_at_price | money  }}", 
+            "title":"{{ variant.title }}",
+            {% if variant.available %}
+            "buttontxt": "{{ 'products.product.add_to_cart' | t }}",
+            "buttonstatus":false
+            {% else %}
+            "buttontxt": "{{ 'products.product.sold_out' | t }}",
+            "buttonstatus":true
+            {% endif %}           
+          }
+          {% endfor %}
+    
+      }
+  </script>
+</amp-state>
+
+
+{% schema %}
+  {
+    "name": "Product",
+    "class": "product-template-section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "product_image_zoom_enable",
+        "label": "Enable image zoom"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_quantity_enable",
+        "label": "Show quantity selector"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_quantity_message",
+        "label": "Show remaining quantity message"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_incoming_message",
+        "label": "Show incoming stock transfer message when sold out"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_vendor_enable",
+        "label": "Show product vendor"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_show_compare_at_price",
+        "label": "Show compare at price",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "related_products_enable",
+        "label": "Show related products"
+      },
+      {
+        "type": "checkbox",
+        "id": "social_sharing_products",
+        "label": "Enable product sharing",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_reviews_enable",
+        "label": "Enable product reviews",
+        "info": "Install the free Shopify [Product Reviews](https:\/\/apps.shopify.com\/product-reviews) app to add product reviews."
+      },
+	  {
+        "type": "text",
+        "id": "min_max_connect",
+        "label": "Price (min max) connector ",
+        "default": " - "
+      }
+      
+    ]
+  }
+{% endschema %}

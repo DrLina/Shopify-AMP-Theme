@@ -1,0 +1,109 @@
+<div class="col-12"> 
+  <div class="col-sm-12 offset-md-2 col-md-8 offset-lg-2 col-lg-8 offset-xl-2 col-xl-8"> 
+    {% if cart.item_count > 0 %}
+      <form action="/cart" method="post"  novalidate>
+
+        <h1 class="h1center">{{ 'cart.general.title' | t }}</h1>
+
+        {% for item in cart.items %}
+        <div data-line="{{ forloop.index }}" class="top-border">
+           <div class="col-12 bottom-border">
+            <div class="col-sm-10 col-md-9 cart-item">
+                <div class="col-sm-4 col-md-2 col-lg-2">
+                  <div class="cart-image" >
+                  <a href="{{ item.url }}" >
+                    <img src="{{ item | img_url: 'medium' }}"  alt="{{ item.title | escape }}">
+                  </a>
+                  </div>
+                </div>
+
+                <div class="col-sm-8 offset-md-1 col-md-8 offset-lg-1 col-lg-8">
+                  <a href="{{ item.url }}" class="cart-item-title">
+                    <small> {{ item.product.title }}</small>
+                  </a>
+                  <div><small>{{ item.variant.title }}</small></div>
+                   
+                  <div class="fix-sm-noshow fix-lg-show">
+                    {{item.price | money  }}
+                        <span class="CartSalePrice">
+                        {% if item.original_price > item.price %}
+                        <small>{{item.original_price | money  }}</small>
+                        {% endif %}
+                        </span>
+                  </div>
+                  
+                  {% if settings.product_quantity_message and item.variant.inventory_management and item.variant.inventory_quantity <= 0 and item.variant.incoming %}
+                    {% assign date = item.variant.next_incoming_date | date: format: 'month_day_year' %}
+                    <p><small>{{ 'products.product.will_not_ship_until' | t: date: date }}</small></p>
+                  {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="col-sm-2 col-md-3 cart-item" >
+              
+              <div class="col-12 text-align-center fix-sm-show fix-lg-noshow">
+                {{item.price | money  }}
+                    <span class="CartSalePrice">
+                    {% if item.original_price > item.price %}
+                    <small>{{item.original_price | money  }}</small>
+                    {% endif %}
+                    </span>
+              </div>
+              
+       		    <div class="col-sm-12 col-md-8">
+                  <input type="number" name="updates[]" id="updates_{{ item.key }}" data-id="{{ item.key }}" value="{{ item.quantity }}" min="0" data-line="{{ forloop.index }}">
+                </div>           
+
+                <div class="col-sm-12 col-md-4 text-align-center">
+                  <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" data-line="{{ forloop.index }}" >
+                       &#9746;
+                  </a>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+
+        <div>
+            {% if settings.cart_notes_enable %}
+              <div class="cart-notes offset-sm-1 col-sm-10 offset-md-0 col-md-5">
+                <label class="col-12" for="cartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+                <textarea class="col-12" name="note" id="cartSpecialInstructions">{{ cart.note }}</textarea>
+              </div>
+            {% endif %}
+
+            <div class="text-align-right offset-sm-1 col-sm-10 offset-md-1 col-md-5">
+              <h3>
+                {{ 'cart.general.subtotal' | t }}
+                {{cart.total_price | money  }}
+              </h3>
+			</div>
+            <div class="text-align-right offset-1 col-10">
+              <p><em>{{ 'cart.general.taxes_extra' | t }}</em></p>
+
+              <input type="submit" name="update" value="{{ 'cart.general.update' | t }}">
+
+              <button type="submit" name="checkout">
+                  {{ 'cart.general.checkout' | t }}
+              </button>
+             </div>
+        </div>
+
+      </form>
+
+    {% else %}
+
+      <div id="EmptyCart">
+        <h1 class="h1center">{{ 'cart.general.title' | t }}</h1>
+        <p>{{ 'cart.general.empty' | t }}</p>
+        <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+      </div>
+
+    {% endif %}
+
+    
+  </div>
+</div>

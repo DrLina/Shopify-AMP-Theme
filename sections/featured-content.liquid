@@ -1,0 +1,227 @@
+<div class="col-12 {{section.settings.section_border}} {{section.settings.color_text_bg}}">
+ 
+{% if section.settings.section_margin == true %}
+<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-2 col-lg-8 offset-xl-2 col-xl-8 margin-1em">
+{% else %}
+  <div class="col-12 margin-1em">
+{% endif %}
+  {% if section.settings.section_title != blank %}
+    <div class="{{section.settings.head_text_align}} text-transform margin-2em">
+      <span class="{{section.settings.head_text_size}} {{section.settings.head_text_color}}">{{ section.settings.section_title | escape }}</span>
+    </div>
+  {% endif %}
+  {% if section.settings.text != blank %}
+    <div class="{{section.settings.body_text_align}} margin-2em">
+      <span class="{{section.settings.body_text_size}}">{{ section.settings.text }}</span>
+    </div>
+  {% endif %}
+  </div>
+  <div class="col-12">
+    <br>
+  </div>
+</div>
+
+
+{% schema %}
+	{
+	  "name": "Rich text",
+      "settings": [
+	  {
+        "type": "checkbox",
+        "id": "section_margin",
+        "label": "Enable section margin",
+		"default": true
+      },
+      {
+        "type": "select",
+        "id": "color_text_bg",
+        "label": "Text background",
+        "default": "",
+        "options": [
+            {
+              "label": "Default",
+              "value": ""
+            },
+            {
+              "label": "Predefine color0",
+              "value": "pre_bg_color0"
+            },
+            {
+              "label": "Predefine color1",
+              "value": "pre_bg_color1"
+            },
+  		    {
+              "label": "Predefine color2",
+              "value": "pre_bg_color2"
+            },
+  		    {
+              "label": "Predefine color3",
+              "value": "pre_bg_color3"
+            },
+  			{
+              "label": "Predefine color4",
+              "value": "pre_bg_color4"
+            }
+          ]
+      },
+	  {
+        "type": "select",
+        "id": "section_border",
+        "label": "Section border settings",
+        "default": "top-border",
+        "options": [
+          {
+            "label": "top border",
+            "value": "top-border"
+          },
+          {
+            "label": "bottom border",
+            "value": "bottom-border"
+          },
+          {
+            "label": "top and bottom border",
+            "value": "top-border bottom-border"
+          },
+          {
+            "label": "full border",
+            "value": "fullborder"
+          },
+          {
+            "label": "no border",
+            "value": "noborder"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "section_title",
+        "label": "Heading",
+        "default": "Talk about your brand"
+      },
+	  {
+        "type": "select",
+        "id": "head_text_size",
+        "label": "Section heading text size",
+        "default": "h2_size",
+        "options": [
+          {
+            "label": "h1 size",
+            "value": "h1_size"
+          },
+          {
+            "label": "h2 size",
+            "value": "h2_size"
+          },
+          {
+            "label": "h3 size",
+            "value": "h3_size"
+          },
+          {
+            "label": "h4 size",
+            "value": "h4_size"
+          },
+          {
+            "label": "body text size",
+            "value": "p_size"
+          } 
+        ]
+      },
+	  {
+        "type": "select",
+        "id": "head_text_align",
+        "label": "Section heading text align",
+        "default": "text-align-center",
+        "options": [
+          {
+            "label": "center",
+            "value": "text-align-center"
+          },
+          {
+            "label": "left",
+            "value": "text-align-left"
+          },
+          {
+            "label": "right",
+            "value": "text-align-right"
+          } 
+        ]
+      },
+	  {
+        "type": "select",
+        "id": "head_text_color",
+        "label": "Section heading text color",
+        "default": "title_text_color",
+        "options": [
+          {
+            "label": "Title text color",
+            "value": "title_text_color"
+          },
+          {
+            "label": "Body text color",
+            "value": "body_text_color"
+          }
+        ]
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+      },    
+      {
+        "type": "select",
+        "id": "body_text_size",
+        "label": "Section body text size",
+        "default": "h2_size",
+        "options": [
+          {
+            "label": "h1 size",
+            "value": "h1_size"
+          },
+          {
+            "label": "h2 size",
+            "value": "h2_size"
+          },
+          {
+            "label": "h3 size",
+            "value": "h3_size"
+          },
+          {
+            "label": "h4 size",
+            "value": "h4_size"
+          },
+          {
+            "label": "body text size",
+            "value": "p_size"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "body_text_align",
+        "label": "Section body text align",
+        "default": "text-align-center",
+        "options": [
+          {
+            "label": "center",
+            "value": "text-align-center"
+          },
+          {
+            "label": "left",
+            "value": "text-align-left"
+          },
+          {
+            "label": "right",
+            "value": "text-align-right"
+          } 
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Rich text",
+        "category": "Text"
+      }
+    ]
+  }
+{% endschema %}

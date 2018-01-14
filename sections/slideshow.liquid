@@ -1,0 +1,336 @@
+<div class="fix-sm-noshow fix-lg-show col-12">
+	{% assign sizew = section.settings.wh_ratio | slice: 0 %}
+	{% assign sizeh = section.settings.wh_ratio | slice: 1 %}
+
+    <amp-carousel
+        {% if section.blocks.size >1 %}
+            controls
+        {% endif %}    
+        {% if section.blocks.size >2 %}
+        	loop
+        {% endif %}   
+        {% if section.settings.slider_auto == true %}
+        	autoplay
+  			delay="{{section.settings.slider_rate}}"
+        {% endif %} 
+                  
+        type="slides"
+        width="{{sizew}}"
+        height="{{sizeh}}"
+        layout="responsive"
+        [slide]="selectedSlide"
+        on="slideChange:AMP.setState({selectedSlide: event.index})">
+     
+        {% for block in section.blocks %}
+        	{% if block.settings.slide != blank %}
+  				{%- assign img_url = block.settings.slide | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+      			<div>
+                  <amp-img 
+                   tabindex="0"
+                   src="{{ block.settings.slide | img_url: '300x300' }}"
+                   layout="responsive"
+                   srcset="{{ block.settings.slide | img_url: 'master' }} 1000w, {{ block.settings.slide | img_url: '800x800' }} 800w, {{ block.settings.slide | img_url: '600x600' }} 500w, {{ block.settings.slide | img_url: '400x400' }} 400w, {{ block.settings.slide | img_url: '300x300' }} 10w"
+                   width="{{ sizew }}"
+                   height="{{ sizeh }}" 
+                   alt="{{ block.settings.slide.alt | escape }}">
+                   </amp-img>
+                   <div class="slide_caption">                
+                    {% if block.settings.block_title  != blank %}
+                    <div class="{{section.settings.head_text_align}} slide_header text-transform">
+                      <span class="{{section.settings.head_text_color}}">{{ block.settings.block_title | escape }}</span>
+                    </div>
+                    {% endif %}
+ 
+                    {% if block.settings.richtext != blank %}
+                      <div class="{{section.settings.body_text_align}} slide_text">
+                        <span class="{{section.settings.body_text_color}}">{{ block.settings.richtext }}</span>
+                      </div>       
+                    {% endif %}
+                    
+                    {% if block.settings.button_label != blank and block.settings.button_link != blank %}
+                	  <div class="{{section.settings.body_text_align}} slide_button">
+                      <a href="{{ block.settings.button_link }}" class="slide_button_content">
+                        {{ block.settings.button_label | escape }}
+                      </a>
+                      </div>
+                    {% endif %}
+                    </div>
+      			 </div>
+  			{% endif %}
+        {% endfor %}
+    </amp-carousel>
+</div>
+<div class="fix-sm-show fix-lg-noshow col-12">
+	{% assign sizew_mob = section.settings.wh_ratio_mob | slice: 0 %}
+	{% assign sizeh_mob = section.settings.wh_ratio_mob | slice: 1 %}
+
+    <amp-carousel 
+        {% if section.blocks.size >1 %}
+            controls
+        {% endif %}    
+        {% if section.blocks.size >2 %}
+        	loop
+        {% endif %}   
+        {% if section.settings.slider_auto == true %}
+        	autoplay
+  			delay="{{section.settings.slider_rate}}"
+        {% endif %} 
+                  
+        type="slides"
+        width="{{sizew_mob}}"
+        height="{{sizeh_mob}}"
+        layout="responsive"
+        [slide]="selectedSlide"
+        on="slideChange:AMP.setState({selectedSlide: event.index})">
+     
+        {% for block in section.blocks %}
+        	{% if block.settings.slide_mob != blank %}
+  				{%- assign img_url = block.settings.slide_mob | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+      			<div>
+                  <amp-img 
+                   tabindex="0"
+                   src="{{ block.settings.slide_mob | img_url: '300x300' }}"
+                   layout="responsive"
+                   srcset="{{ block.settings.slide_mob | img_url: 'master' }} 1000w, {{ block.settings.slide_mob | img_url: '800x800' }} 800w, {{ block.settings.slide_mob | img_url: '600x600' }} 500w, {{ block.settings.slide_mob | img_url: '400x400' }} 400w, {{ block.settings.slide_mob | img_url: '300x300' }} 10w"
+                   width="{{ sizew_mob }}"
+                   height="{{ sizeh_mob }}" 
+                   alt="{{ block.settings.slide_mob.alt | escape }}">
+                   </amp-img>
+                  <div class="slide_caption">                
+                    {% if block.settings.block_title  != blank %}
+                    <div class="{{section.settings.head_text_align}} text-transform slide_header">
+                      <span class="{{section.settings.head_text_color}}">{{ block.settings.block_title | escape }}</span>
+                    </div>
+                    {% endif %}
+ 
+                    {% if block.settings.richtext != blank %}
+                      <div class="{{section.settings.body_text_align}} slide_text margin-1em">
+                        <span class="{{section.settings.body_text_color}}">{{ block.settings.richtext }}</span>
+                      </div>       
+                    {% endif %}
+                    
+                    {% if block.settings.button_label != blank and block.settings.button_link != blank %}
+                	  <div class="{{section.settings.body_text_align}} slide_button">
+                      <a href="{{ block.settings.button_link }}" class="slide_button_content">
+                        {{ block.settings.button_label | escape }}
+                      </a>
+                      </div>
+                    {% endif %}
+                    </div>
+      			 </div>
+  			{% endif %}
+        {% endfor %}
+    </amp-carousel>
+</div>
+
+{% schema %}
+  {
+    "name": "Slideshow",
+    "class": "slider-section",
+    "max_blocks": 6,
+    "settings": [
+      {
+        "type": "select",
+        "id": "wh_ratio",
+        "label": "Width Height Ratio",
+        "options": [
+		  {
+            "value": "11",
+            "label": "1:1"
+          },
+		  {
+            "value": "43",
+            "label": "4:3"
+          },
+          {
+            "value": "32",
+            "label": "3:2"
+          },
+          {
+            "value": "21",
+            "label": "2:1"
+          },
+          {
+            "value": "31",
+            "label": "3:1"
+          },
+          {
+            "value": "41",
+            "label": "4:1"
+          }
+        ]
+      },
+	  {
+        "type": "select",
+        "id": "wh_ratio_mob",
+        "label": "Width Height Ratio for Mobile",
+        "options": [
+		  {
+            "value": "12",
+            "label": "1:2"
+          },
+          {
+            "value": "23",
+            "label": "1:1.5"
+          },
+          {
+            "value": "34",
+            "label": "1:1.3"
+          },
+		  {
+            "value": "11",
+            "label": "1:1"
+          },
+		  {
+            "value": "43",
+            "label": "4:3"
+          },
+          {
+            "value": "32",
+            "label": "3:2"
+          },
+          {
+            "value": "21",
+            "label": "2:1"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "slider_auto",
+        "label": "Auto-play slides (at least 3 slides)"
+      },
+      {
+        "type": "select",
+        "id": "slider_rate",
+        "label": "Transition time",
+        "options": [
+          {
+            "value": "500",
+            "label": "0.5 seconds"
+          },
+		  {
+            "value": "1000",
+            "label": "1 seconds"
+          },
+		  {
+            "value": "2000",
+            "label": "2 seconds"
+          },
+          {
+            "value": "3000",
+            "label": "3 seconds"
+          },
+          {
+            "value": "5000",
+            "label": "5 seconds"
+          },
+          {
+            "value": "7000",
+            "label": "7 seconds"
+          },
+          {
+            "value": "10000",
+            "label": "10 seconds"
+          }
+        ]
+      },
+      {
+          "type": "select",
+          "id": "head_text_align",
+          "label": "Block heading text align",
+          "default": "text-align-center",
+          "options": [
+            {
+              "label": "center",
+              "value": "text-align-center"
+            },
+            {
+              "label": "left",
+              "value": "text-align-left"
+            },
+            {
+              "label": "right",
+              "value": "text-align-right"
+            } 
+          ]
+        },
+        {
+          "type": "select",
+          "id": "body_text_align",
+          "label": "Block body text align",
+          "default": "text-align-center",
+          "options": [
+            {
+              "label": "center",
+              "value": "text-align-center"
+            },
+            {
+              "label": "left",
+              "value": "text-align-left"
+            },
+            {
+              "label": "right",
+              "value": "text-align-right"
+            } 
+          ]
+        }
+	  
+    ],
+    "presets": [
+      {
+        "name": "Slideshow",
+        "category": "Image",
+        "blocks":[
+          {
+          "type": "image",
+          "type": "image",
+          "type": "image"
+         }
+        ]
+      }
+    ],
+    "blocks" : [
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "slide",
+            "label": "Image",
+            "info":"1000+ px recommended"
+          },
+		  {
+            "type": "image_picker",
+            "id": "slide_mob",
+            "label": "Image for mobile",
+            "info":"600+ px recommended"
+          },
+    	  {
+            "type": "text",
+            "id": "block_title",
+            "label": "Heading",
+            "default": "Talk about your brand"
+          },
+		  {
+			"type": "richtext",
+            "id": "richtext",
+            "label": "Text on the image"
+		  },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button label"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+          }
+   		  
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,442 @@
+<div class="col-12 {{section.settings.section_border}} {{section.settings.color_text_bg}}">
+ 
+{% if section.settings.section_margin == true %}
+<div class="col-sm-12 offset-md-2 col-md-8 offset-lg-2 col-lg-8 offset-xl-2 col-xl-8 margin-1em">
+{% else %}
+<div class="col-12 margin-1em">
+{% endif %}
+   
+  
+    {% if section.settings.title != blank %}
+  <div class="col-12 margin-imgtext-2em">
+  </div>
+    <div class="{{section.settings.head_text_align}} text-transform">
+      <span class="{{section.settings.head_text_size}} {{section.settings.head_text_color}}">{{ section.settings.title | escape }}</span>
+    </div>
+    {% endif %}
+
+    <div class="col-12">
+
+      
+	  {% for block in section.blocks %}
+
+        <div class="col-sm-12 {{block.settings.width}}">
+           <div class="size80">
+            <div class="col-12 margin-1em">
+              <div class="col-6 margin-1em">
+                <div class="{{section.settings.icon_width}} {{block.settings.head_text_color}} margin-1em" >
+                  <amp-fit-text width="1"
+                    height="1"
+                    layout="responsive"
+                    max-font-size="100">
+                    {{block.settings.home-features-icon}}
+                  </amp-fit-text>            
+                </div>
+              </div>
+            </div>
+             
+             
+             {% if block.settings.home-features-title != blank %}
+             <div class="{{block.settings.head_text_align}} text-transform margin-1em">
+               <span class="{{block.settings.head_text_size}} {{block.settings.head_text_color}}">{{ block.settings.home-features-title | escape }}</span>
+             </div>
+             {% endif %}
+             {% if block.settings.home-features-content != blank %}
+             <div class="{{block.settings.body_text_align}} margin-1em">
+               <span class="{{block.settings.body_text_size}}">{{ block.settings.home-features-content }}</span>
+             </div>
+             {% endif %}
+
+          </div>
+		</div>
+
+      {% endfor %}
+
+    </div>
+    <div class="col-12 margin-imgtext-2em">
+  </div>
+</div>
+</div>
+
+{% schema %}
+  {
+  	"name": "Text columns with icons",
+  	"settings": [
+  		{
+  			"type": "text",
+  			"id": "title",
+  			"label": "Heading",
+  			"default": "Text columns with icons"
+  		},
+        {
+          "type": "checkbox",
+          "id": "section_margin",
+          "label": "Enable section margin",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "color_text_bg",
+          "label": "Text background",
+          "default": "",
+          "options": [
+              {
+                "label": "Default",
+                "value": ""
+              },
+              {
+                "label": "Predefine color0",
+                "value": "pre_bg_color0"
+              },
+              {
+                "label": "Predefine color1",
+                "value": "pre_bg_color1"
+              },
+              {
+                "label": "Predefine color2",
+                "value": "pre_bg_color2"
+              },
+              {
+                "label": "Predefine color3",
+                "value": "pre_bg_color3"
+              },
+              {
+                "label": "Predefine color4",
+                "value": "pre_bg_color4"
+              }
+            ]
+        },
+        {
+          "type": "select",
+          "id": "section_border",
+          "label": "Section border settings",
+          "default": "top-border",
+          "options": [
+            {
+              "label": "top border",
+              "value": "top-border"
+            },
+            {
+              "label": "bottom border",
+              "value": "bottom-border"
+            },
+            {
+              "label": "top and bottom border",
+              "value": "top-border bottom-border"
+            },
+            {
+              "label": "full border",
+              "value": "fullborder"
+            },
+            {
+              "label": "no border",
+              "value": "noborder"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "head_text_size",
+          "label": "Section heading text size",
+          "default": "h2_size",
+          "options": [
+            {
+              "label": "h1 size",
+              "value": "h1_size"
+            },
+            {
+              "label": "h2 size",
+              "value": "h2_size"
+            },
+            {
+              "label": "h3 size",
+              "value": "h3_size"
+            },
+            {
+              "label": "h4 size",
+              "value": "h4_size"
+            },
+            {
+              "label": "body text size",
+              "value": "p_size"
+            } 
+          ]
+        },
+        {
+          "type": "select",
+          "id": "head_text_align",
+          "label": "Section heading text align",
+          "default": "text-align-center",
+          "options": [
+            {
+              "label": "center",
+              "value": "text-align-center"
+            },
+            {
+              "label": "left",
+              "value": "text-align-left"
+            },
+            {
+              "label": "right",
+              "value": "text-align-right"
+            } 
+          ]
+        },
+        {
+          "type": "select",
+          "id": "head_text_color",
+          "label": "Section heading text color",
+          "default": "title_text_color",
+          "options": [
+            {
+              "label": "Title text color",
+              "value": "title_text_color"
+            },
+            {
+              "label": "Body text color",
+              "value": "body_text_color"
+            }
+          ]
+        },
+        {
+            "type": "select",
+            "id": "icon_width",
+            "label": "icon_width",
+            "default": "col-6",
+            "options": [
+              {
+                "label": "1",
+                "value": "col-1"
+              },
+   			  {
+                "label": "2",
+                "value": "col-2"
+              },
+              {
+                "label": "3",
+                "value": "col-3"
+              },
+              {
+                "label": "4",
+                "value": "col-4"
+              },
+              {
+                "label": "5",
+                "value": "col-5"
+              },
+              {
+                "label": "6",
+                "value": "col-6"
+              },
+              {
+                "label": "8",
+                "value": "col-8"
+              },
+              {
+                "label": "10",
+                "value": "col-10"
+              },
+              {
+                "label": "12",
+                "value": "col-12"
+              }
+            ]
+        }
+  	],
+  	"presets": [
+  		{
+  			"name": "Text columns with icons",
+  			"category": "Text",
+  			"blocks": [
+  				{
+  					"type": "text"
+  				},
+  				{
+  					"type": "text"
+  				},
+  				{
+  					"type": "text"
+  				}
+  			]
+  		}
+  	],
+  	"blocks" : [
+  		{
+  			"type": "text",
+  			"name": "Describe a feature",
+  			"settings": [
+  				{
+  					"type": "text",
+  					"id": "home-features-icon",
+  					"label": "Icon name",
+  					"default":"&#x2600;",
+  					"info": "[View the list of available icons](https://www.w3schools.com/html/html_symbols.asp)  Example: &#174;"
+  				},
+  				{
+  						"type": "text",
+  						"id": "home-features-title",
+  						"default":"Describe a feature",
+  						"label": "Title"
+  				},
+  				{
+  					"type": "richtext",
+  					"id": "home-features-content",
+  					"label": "Text",
+  					"default":"<p>This section doesn’t currently include any content. <b>Add content to this section using the sidebar.</b></p>",
+  					"info": "Use basic HTML to format text"
+  				},
+  				{
+  					"type": "select",
+  					"id": "width",
+  					"label": "Container width",
+  					"default": "col-md-4",
+  					"options": [
+  						{
+  							"value": "col-md-2",
+  							"label": "16%"
+  						},
+                        {
+  							"value": "col-md-3",
+  							"label": "25%"
+  						},
+  						{
+  							"value": "col-md-4",
+  							"label": "33%"
+  						},
+  						{
+  							"value": "col-md-6",
+  							"label": "50%"
+  						},
+  						{
+  							"value": "col-md-8",
+  							"label": "66%"
+  						},
+  						{
+  							"value": "col-md-9",
+  							"label": "75%"
+  						},
+  						{
+  							"value": "col-md-12",
+  							"label": "100%"
+  						}
+  					]
+  				},
+                {
+                    "type": "select",
+                    "id": "head_text_size",
+                    "label": "Block heading text size",
+                    "default": "h3_size",
+                    "options": [
+                      {
+                        "label": "h1 size",
+                        "value": "h1_size"
+                      },
+                      {
+                        "label": "h2 size",
+                        "value": "h2_size"
+                      },
+                      {
+                        "label": "h3 size",
+                        "value": "h3_size"
+                      },
+                      {
+                        "label": "h4 size",
+                        "value": "h4_size"
+                      },
+                      {
+                        "label": "body text size",
+                        "value": "p_size"
+                      } 
+                    ]
+                  },
+                  {
+                    "type": "select",
+                    "id": "head_text_align",
+                    "label": "Block heading text align",
+                    "default": "text-align-left",
+                    "options": [
+                      {
+                        "label": "center",
+                        "value": "text-align-center"
+                      },
+                      {
+                        "label": "left",
+                        "value": "text-align-left"
+                      },
+                      {
+                        "label": "right",
+                        "value": "text-align-right"
+                      } 
+                    ]
+                  },
+                  {
+                    "type": "select",
+                    "id": "head_text_color",
+                    "label": "Block heading text color",
+                    "default": "title_text_color",
+                    "options": [
+                      {
+                        "label": "Title text color",
+                        "value": "title_text_color"
+                      },
+                      {
+                        "label": "Body text color",
+                        "value": "body_text_color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "select",
+                    "id": "body_text_size",
+                    "label": "Section body text size",
+                    "default": "p_size",
+                    "options": [
+                      {
+                        "label": "h1 size",
+                        "value": "h1_size"
+                      },
+                      {
+                        "label": "h2 size",
+                        "value": "h2_size"
+                      },
+                      {
+                        "label": "h3 size",
+                        "value": "h3_size"
+                      },
+                      {
+                        "label": "h4 size",
+                        "value": "h4_size"
+                      },
+                      {
+                        "label": "body text size",
+                        "value": "p_size"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "select",
+                    "id": "body_text_align",
+                    "label": "Section body text align",
+                    "default": "text-align-left",
+                    "options": [
+                      {
+                        "label": "center",
+                        "value": "text-align-center"
+                      },
+                      {
+                        "label": "left",
+                        "value": "text-align-left"
+                      },
+                      {
+                        "label": "right",
+                        "value": "text-align-right"
+                      } 
+                    ]
+                  }
+  			]
+  		}
+  	]
+  }
+{% endschema %}
+
+
