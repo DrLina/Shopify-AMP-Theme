@@ -21,7 +21,7 @@ Implementation of AMP has been proven to increase conversions and decrease bounc
 
 
 # Shopify with Google AMP
-Although Google AMP increase conversions of Shopify shops. As I asked Shopify, they will NOT improve their platform to AMP in a short time due to technical issues. Some existing shopify apps convert blog or product pages into a seperate AMP page, but none of them can convert Home page.
+Although Google AMP increase conversions of Shopify shops. As I asked Shopify, they will NOT support AMP in a short time due to technical issues. Some existing Shopify apps convert blog or product pages into a separate AMP page, but none of them can convert Home page.
 
 Shopify-AMP-Theme makes impossible possible. Written from scratch using Google AMP, Shopify-AMP-Theme uses the same code for Desktop and Mobile, and is clearly structured with pure AMP and CSS. Shopify-AMP-Theme should be the first and only working Shopify theme, which is validated and cached by Google AMP.
 
