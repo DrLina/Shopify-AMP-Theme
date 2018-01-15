@@ -20,7 +20,7 @@ Implementation of AMP has been proven to increase conversions and decrease bounc
 •	WompMobile, achieved a conversion rate increase of 105% and a decrease in bounce rate of 31% (Mar 2017).
 
 # Shopify with Google AMP
-Although Google AMP should increase conversions of Shopify mechants' websites, when I contacted Shopify, they do NOT have plan to support AMP in the short-term due to some technical issues (I do NOT know the issues but would be happy to jump in and contribute if they agree). Some existing Shopify apps can convert blog or product pages into AMP page separately, but none of them can convert the Homepage.
+Although Google AMP should increase conversions of Shopify mechants' websites, when I contacted Shopify, they do NOT have plan to support AMP in the short-term due to some technical issues. Some existing Shopify apps can convert blog or product pages into AMP page separately, but none of them can convert the Homepage.
 
 This Shopify-AMP-Theme makes impossible possible. Written from scratch using Google AMP, the Shopify-AMP-Theme uses the same code for Desktop and Mobile, and is clearly structured with pure AMP and CSS. The Shopify-AMP-Theme should be the first and the only working Shopify theme with AMP enabled, which is validated and cached by Google AMP.
 
